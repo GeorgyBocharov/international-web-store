@@ -1,0 +1,246 @@
+POST http://127.0.0.1:8080/languages
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": null,
+  "name": "German"
+}
+
+###
+
+POST http://127.0.0.1:8080/parameter_types
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": null,
+  "name": "Quality"
+}
+
+###
+
+PUT http://127.0.0.1:8080/languages
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": 2,
+  "name": "russian"
+}
+
+###
+
+POST http://127.0.0.1:8080/currencies
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": null,
+  "name": "USD",
+  "multiplier": 1
+}
+
+###
+
+PUT http://127.0.0.1:8080/currencies
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": 5,
+  "name": "RUB",
+  "multiplier": 74.57
+}
+
+###
+
+POST http://127.0.0.1:8080/products
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": null,
+  "infoDtoSet": [
+    {
+      "description": "not iphone",
+      "id": null,
+      "languageId": 1,
+      "title": "Xiaomi mi 9 SE"
+    }
+  ],
+  "parameterDtoSet": [
+    {
+      "id": null,
+      "parameterTypeId": 1,
+      "value": "Works fine after 2 years"
+    }
+  ],
+  "priceCU": 500
+}
+
+###
+
+PUT http://127.0.0.1:8080/products
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": 3,
+  "priceCU": 150,
+  "parameterDtoSet": [],
+  "infoDtoSet": []
+}
+
+###
+
+PUT http://127.0.0.1:8080/products/infos/update
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": 3,
+  "title": "BEST PRODUCT",
+  "description": "looong description"
+}
+
+###
+
+PUT http://127.0.0.1:8080/products/params/update
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": 1,
+  "value": "OK OK"
+}
+
+###
+
+POST http://127.0.0.1:8080/clients
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": null,
+  "name": "Ivan",
+  "phone": "88005553535",
+  "region": 77
+}
+
+###
+
+PUT http://127.0.0.1:8080/clients
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": 2,
+  "name": "Ivan",
+  "phone": "88005553536",
+  "region": 77
+}
+
+###
+
+POST http://127.0.0.1:8080/orders
+Accept: application/json
+Content-Type: application/json
+
+{
+  "clientId": 1,
+  "currencyId": 1,
+  "id": null,
+  "orderItemDtoSet": [
+    {
+      "id": null,
+      "productId": 1,
+      "quantity": 2
+    }
+  ]
+}
+
+###
+
+GET http://127.0.0.1:8080/orders/per_client/1
+
+###
+
+GET http://127.0.0.1:8080/orders/1
+
+###
+
+POST http://127.0.0.1:8080/orders/shipments
+Accept: application/json
+Content-Type: application/json
+
+{
+  "address": "Moscow, Viktorenko st., 54",
+  "id": null,
+  "orderId": 1
+}
+
+###
+
+PUT http://127.0.0.1:8080/orders/payments
+Accept: application/json
+Content-Type: application/json
+
+{
+  "cardPan": "0000000001234567",
+  "currencyId": 2,
+  "id": 1,
+  "orderId": 1
+}
+
+###
+
+PUT http://127.0.0.1:8080/orders/payments
+Accept: application/json
+Content-Type: application/json
+
+{
+  "cardPan": "0000 0000 0000 0000",
+  "currencyId": 1,
+  "id": 4,
+  "orderId": 4
+}
+
+###
+
+GET http://127.0.0.1:8080/parameter_types/all
+
+###
+
+GET http://127.0.0.1:8080/products/all
+
+
+###
+
+POST http://127.0.0.1:8080/products/parameters
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": null,
+  "parameterTypeId": 2,
+  "productId": 1,
+  "value": "Good"
+}
+
+###
+
+POST http://127.0.0.1:8080/products/infos
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": null,
+  "languageId": 2,
+  "productId": 1,
+  "title": "Zehr gut Qualitat",
+  "description": "Das ist ein schon Telefon. Er ist nicht so teuer"
+}
+
+###
+

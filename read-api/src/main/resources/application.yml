@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: read-api
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+
+server:
+  port: 8081
+
+cache.loader.poll.interval.mins:
+  product: 30
+  language: 60
+  parameter.type: 60
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
