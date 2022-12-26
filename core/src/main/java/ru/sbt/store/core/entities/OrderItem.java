@@ -6,13 +6,14 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "order_items", schema = "online_store")
+@Table(name = "order_items")
 @Getter
 @Setter
 public class OrderItem extends BaseEntity<Long> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "order_items_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_items_id_gen")
+    @SequenceGenerator(name = "order_items_id_gen", sequenceName = "order_items_id_seq", allocationSize = 1)
     private Long id;
 
     private Integer quantity = 0;

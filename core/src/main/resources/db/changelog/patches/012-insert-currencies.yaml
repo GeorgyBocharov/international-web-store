@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - property:
+      dbms: postgresql
+      name: now
+      value: now()
+  - property:
+      dbms: oracle
+      name: now
+      value: sysdate
+  - property:
+      dbms: postgresql
+      name: currency_next_id
+      value: nextval('currencies_id_seq')
+  - property:
+      dbms: oracle
+      name: currency_next_id
+      value: currencies_id_seq.nextval
+  - changeSet:
+      id: insert-currencies
+      author: BocharovGM
+      changes:
+        - sql:
+            dbms: 'postgresql, oracle'
+            sql: insert into currencies (id, name,multiplier,creation_date,last_update_date, version) values (${currency_next_id}, 'RUB', 1, ${now}, null, 1), (${currency_next_id}, 'USD', 0.0146, ${now}, null, 1)

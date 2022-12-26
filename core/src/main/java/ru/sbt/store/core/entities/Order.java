@@ -9,13 +9,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "orders", schema = "online_store")
+@Table(name = "orders")
 @Getter
 @Setter
 public class Order extends BaseEntity<Long> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "orders_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "orders_id_gen")
+    @SequenceGenerator(name = "orders_id_gen", sequenceName = "orders_id_seq", allocationSize = 1)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -1,0 +1,39 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-products-table
+      author: BocharovGM
+      changes:
+        - createTable:
+            tableName: products
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                  name: id
+                  type: bigint
+              - column:
+                  constraints:
+                    nullable: false
+                  name: price_cu
+                  type: number(19,6)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: creation_date
+                  type: timestamp
+              - column:
+                  name: last_update_date
+                  type: timestamp
+              - column:
+                  constraints:
+                    nullable: false
+                  name: version
+                  type: bigint
+  - changeSet:
+      id: create-products-id-seq
+      author: BocharovGM
+      changes:
+        - createSequence:
+            sequenceName: products_id_seq
+            startValue: 1
+            incrementBy: 1

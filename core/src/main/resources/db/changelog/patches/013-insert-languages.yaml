@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - property:
+      dbms: postgresql
+      name: now
+      value: now()
+  - property:
+      dbms: oracle
+      name: now
+      value: sysdate
+  - property:
+      dbms: postgresql
+      name: language_next_id
+      value: nextval('languages_id_seq')
+  - property:
+      dbms: oracle
+      name: language_next_id
+      value: languages_id_seq.nextval
+  - changeSet:
+      id: insert-languages
+      author: BocharovGM
+      changes:
+        - sql:
+            dbms: 'postgresql, oracle'
+            sql: insert into languages (id, name,creation_date,last_update_date, version) values (${language_next_id}, 'RUS', ${now}, null, 1), (${language_next_id}, 'ENG', ${now}, null, 1)

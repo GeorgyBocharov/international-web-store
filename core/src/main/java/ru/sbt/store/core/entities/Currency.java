@@ -7,13 +7,14 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "currencies", schema = "online_store")
+@Table(name = "currencies")
 @Getter
 @Setter
 public class Currency extends BaseEntity<Long> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "currencies_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "currencies_id_gen")
+    @SequenceGenerator(name = "currencies_id_gen", sequenceName = "currencies_id_seq", allocationSize = 1)
     private Long id;
 
     private String name;

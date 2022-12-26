@@ -9,13 +9,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "products", schema = "online_store")
+@Table(name = "products")
 @Getter
 @Setter
 public class Product extends BaseEntity<Long> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "products_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "products_id_gen")
+    @SequenceGenerator(name = "products_id_gen", sequenceName = "products_id_seq", allocationSize = 1)
     private Long id;
 
     @Column(name = "price_cu")

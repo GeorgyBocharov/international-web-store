@@ -1,0 +1,45 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-currencies-table
+      author: BocharovGM
+      changes:
+        - createTable:
+            tableName: currencies
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                  name: id
+                  type: bigint
+              - column:
+                  constraints:
+                    nullable: false
+                    unique: true
+                  name: name
+                  type: varchar(50)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: multiplier
+                  type: number(19,6)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: creation_date
+                  type: timestamp
+              - column:
+                  name: last_update_date
+                  type: timestamp
+              - column:
+                  constraints:
+                    nullable: false
+                  name: version
+                  type: bigint
+  - changeSet:
+      id: create-currencies-id-seq
+      author: BocharovGM
+      changes:
+        - createSequence:
+            sequenceName: currencies_id_seq
+            startValue: 1
+            incrementBy: 1

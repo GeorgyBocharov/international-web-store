@@ -7,13 +7,14 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "payments", schema = "online_store")
+@Table(name = "payments")
 @Getter
 @Setter
 public class Payment extends BaseEntity<Long>{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "payments_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "payments_id_gen")
+    @SequenceGenerator(name = "payments_id_gen", sequenceName = "payments_id_seq", allocationSize = 1)
     private Long id;
 
     private BigDecimal value;

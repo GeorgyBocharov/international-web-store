@@ -8,33 +8,18 @@ import lombok.*;
 
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 
 @Getter
-@Setter
-@NoArgsConstructor
 @ToString
 @EqualsAndHashCode
+@Builder
 public class ProductWithCurrency {
-
-    private Long id;
-    private Map<CurrencyDto, BigDecimal> pricesPerCurrency = new HashMap<>();
-    private Set<ParameterDto> parameters = new HashSet<>();
-    private InfoDto info;
-    private BigDecimal priceCU;
-
-    public ProductWithCurrency(Product product) {
-        this.id = product.getId();
-        this.priceCU = product.getPriceCU();
-        this.parameters = product.getParameters();
-        this.info = product.getInfo();
-    }
-
-    public void addPricePerCurrency(CurrencyDto currencyDto, BigDecimal price) {
-        pricesPerCurrency.put(currencyDto, price);
-    }
+    private final Long id;
+    @Singular("priceInCurrency")
+    private final List<PriceInCurrency> priceInCurrencies;
+    private final Set<ParameterDto> parameters;
+    private final InfoDto info;
+    private final BigDecimal priceCU;
 }

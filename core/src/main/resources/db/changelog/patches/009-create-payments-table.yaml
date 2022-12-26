@@ -1,0 +1,59 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-payments-table
+      author: BocharovGM
+      changes:
+        - createTable:
+            tableName: payments
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                  name: id
+                  type: bigint
+              - column:
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_payments_orders
+                    references: orders(id)
+                  name: order_id
+                  type: bigint
+              - column:
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_payments_currencies
+                    references: currencies(id)
+                  name: currency_id
+                  type: bigint
+              - column:
+                  constraints:
+                    nullable: false
+                  name: card_pan
+                  type: varchar(50)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: value
+                  type: number(19,6)
+                  defaultValue: 0
+              - column:
+                  constraints:
+                    nullable: false
+                  name: creation_date
+                  type: timestamp
+              - column:
+                  name: last_update_date
+                  type: timestamp
+              - column:
+                  constraints:
+                    nullable: false
+                  name: version
+                  type: bigint
+  - changeSet:
+      id: create-payments-id-seq
+      author: BocharovGM
+      changes:
+        - createSequence:
+            sequenceName: payments_id_seq
+            startValue: 1
+            incrementBy: 1

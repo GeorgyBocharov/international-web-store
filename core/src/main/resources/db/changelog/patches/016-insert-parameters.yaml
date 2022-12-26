@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - property:
+      dbms: postgresql
+      name: now
+      value: now()
+  - property:
+      dbms: oracle
+      name: now
+      value: sysdate
+  - property:
+      dbms: postgresql
+      name: parameters_next_id
+      value: nextval('parameters_id_seq')
+  - property:
+      dbms: oracle
+      name: parameters_next_id
+      value: parameters_id_seq.nextval
+  - changeSet:
+      id: insert-parameters
+      author: BocharovGM
+      changes:
+        - sql:
+            dbms: 'postgresql, oracle'
+            sql: insert into parameters (id, product_id, parameter_type_id, value, creation_date,last_update_date, version) values (${parameters_next_id}, 1, 1, 'not excellent, but nice for its price', ${now}, null, 1), (${parameters_next_id}, 1, 2, 'works fine 2-3 years', ${now}, null, 1), (${parameters_next_id}, 2, 1, 'almost perfect', ${now}, null, 1), (${parameters_next_id}, 2, 2, 'works fine 4-5 years', ${now}, null, 1)

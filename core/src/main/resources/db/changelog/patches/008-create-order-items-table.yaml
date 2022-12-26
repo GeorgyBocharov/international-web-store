@@ -1,0 +1,54 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-order-items-table
+      author: BocharovGM
+      changes:
+        - createTable:
+            tableName: order_items
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                  name: id
+                  type: bigint
+              - column:
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_order_items_orders
+                    references: orders(id)
+                  name: order_id
+                  type: bigint
+              - column:
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_order_items_products
+                    references: products(id)
+                  name: product_id
+                  type: bigint
+              - column:
+                  constraints:
+                    nullable: false
+                  name: quantity
+                  type: int
+                  defaultValue: 0
+              - column:
+                  constraints:
+                    nullable: false
+                  name: creation_date
+                  type: timestamp
+              - column:
+                  name: last_update_date
+                  type: timestamp
+              - column:
+                  constraints:
+                    nullable: false
+                  name: version
+                  type: bigint
+  - changeSet:
+      id: create-order-items-id-seq
+      author: BocharovGM
+      changes:
+        - createSequence:
+            sequenceName: order_items_id_seq
+            startValue: 1
+            incrementBy: 1

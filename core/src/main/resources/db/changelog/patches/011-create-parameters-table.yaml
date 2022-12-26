@@ -1,0 +1,53 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-parameters-table
+      author: BocharovGM
+      changes:
+        - createTable:
+            tableName: parameters
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                  name: id
+                  type: bigint
+              - column:
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_parameters_products
+                    references: products(id)
+                  name: product_id
+                  type: bigint
+              - column:
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_parameters_parameter_types
+                    references: parameter_types(id)
+                  name: parameter_type_id
+                  type: bigint
+              - column:
+                  constraints:
+                    nullable: false
+                  name: value
+                  type: varchar(100)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: creation_date
+                  type: timestamp
+              - column:
+                  name: last_update_date
+                  type: timestamp
+              - column:
+                  constraints:
+                    nullable: false
+                  name: version
+                  type: bigint
+  - changeSet:
+      id: create-parameters-id-seq
+      author: BocharovGM
+      changes:
+        - createSequence:
+            sequenceName: parameters_id_seq
+            startValue: 1
+            incrementBy: 1

@@ -7,10 +7,12 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 import reactor.util.function.Tuple2;
 import ru.sbt.store.compositor.api.client.ReadApiClient;
+import ru.sbt.store.compositor.api.entities.PriceInCurrency;
 import ru.sbt.store.compositor.api.entities.ProductWithCurrency;
 import ru.sbt.store.compositor.api.client.CoreClient;
 import ru.sbt.store.compositor.api.service.ProductWithCurrencyService;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Component
@@ -27,13 +29,17 @@ public class ProductWithCurrencyServiceImpl implements ProductWithCurrencyServic
     }
 
     private static ProductWithCurrency constructProductWithCurrency(Tuple2<Product, List<CurrencyDto>> tuple) {
-        ProductWithCurrency productWithCurrency = new ProductWithCurrency(tuple.getT1());
+        Product product = tuple.getT1();
+        BigDecimal priceCU = product.getPriceCU();
+        ProductWithCurrency.ProductWithCurrencyBuilder productWithCurrency = ProductWithCurrency.builder()
+                .id(product.getId())
+                .info(product.getInfo())
+                .priceCU(product.getPriceCU())
+                .parameters(product.getParameters());
         for (CurrencyDto currencyDto : tuple.getT2()) {
-            productWithCurrency.addPricePerCurrency(
-                    currencyDto,
-                    currencyDto.getMultiplier().multiply(productWithCurrency.getPriceCU())
-            );
+            BigDecimal priceInCurrency = currencyDto.getMultiplier().multiply(priceCU);
+            productWithCurrency.priceInCurrency(new PriceInCurrency(currencyDto, priceInCurrency));
         }
-        return productWithCurrency;
+        return productWithCurrency.build();
     }
 }

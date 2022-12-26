@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - property:
+      dbms: postgresql
+      name: now
+      value: now()
+  - property:
+      dbms: oracle
+      name: now
+      value: sysdate
+  - property:
+      dbms: postgresql
+      name: clients_next_id
+      value: nextval('clients_id_seq')
+  - property:
+      dbms: oracle
+      name: clients_next_id
+      value: clients_id_seq.nextval
+  - changeSet:
+      id: insert-clients
+      author: BocharovGM
+      changes:
+        - sql:
+            dbms: 'postgresql, oracle'
+            sql: insert into clients (id, name, phone, region, creation_date, version) values (${clients_next_id}, 'George', '88005553535', 77, ${now}, 1)

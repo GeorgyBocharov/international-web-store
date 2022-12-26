@@ -1,0 +1,40 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-languages-table
+      author: BocharovGM
+      changes:
+        - createTable:
+            tableName: languages
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                  name: id
+                  type: bigint
+              - column:
+                  constraints:
+                    nullable: false
+                    unique: true
+                  name: name
+                  type: varchar(50)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: creation_date
+                  type: timestamp
+              - column:
+                  name: last_update_date
+                  type: timestamp
+              - column:
+                  constraints:
+                    nullable: false
+                  name: version
+                  type: bigint
+  - changeSet:
+      id: create-languages-id-seq
+      author: BocharovGM
+      changes:
+        - createSequence:
+            sequenceName: languages_id_seq
+            startValue: 1
+            incrementBy: 1

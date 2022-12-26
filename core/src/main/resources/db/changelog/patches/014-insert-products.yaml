@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - property:
+      dbms: postgresql
+      name: now
+      value: now()
+  - property:
+      dbms: oracle
+      name: now
+      value: sysdate
+  - property:
+      dbms: postgresql
+      name: product_next_id
+      value: nextval('products_id_seq')
+  - property:
+      dbms: oracle
+      name: product_next_id
+      value: products_id_seq.nextval
+  - changeSet:
+      id: insert-products
+      author: BocharovGM
+      changes:
+        - sql:
+            dbms: 'postgresql, oracle'
+            sql: insert into products (id, price_cu,creation_date,last_update_date, version) values (${product_next_id}, 17000, ${now}, null, 1), (${product_next_id}, 86000, ${now}, null, 1)

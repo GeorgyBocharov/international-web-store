@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - property:
+      dbms: postgresql
+      name: now
+      value: now()
+  - property:
+      dbms: oracle
+      name: now
+      value: sysdate
+  - property:
+      dbms: postgresql
+      name: infos_next_id
+      value: nextval('infos_id_seq')
+  - property:
+      dbms: oracle
+      name: infos_next_id
+      value: infos_id_seq.nextval
+  - changeSet:
+      id: insert-infos
+      author: BocharovGM
+      changes:
+        - sql:
+            dbms: 'postgresql, oracle'
+            sql: insert into infos (id, title, description, product_id, language_id, creation_date, version) values (${infos_next_id}, 'Xiaomi mi 9 SE', 'Хороший, недорогой телефон. Есть NFC, в России можно оплачивать в приложении MirPay. Памяти 64GB не хватает для активных пользователей. Камера посредственная.', 1, 1, ${now}, 1), (${infos_next_id}, 'Xiaomi mi 9 SE', 'Good, inexpensive phone. There is NFC, in Russia you can pay using the MirPay application. 64GB memory is not enough for active users. The camera is mediocre.', 1, 2, ${now}, 1), (${infos_next_id}, 'Iphone 13 Pro', 'Премиальный смартфон. Камера идеальна. 256 ГБ памяти позволяют хранить ваши эффектные снимки. NFC заблокирован в России', 2, 1, ${now}, 1), (${infos_next_id}, 'Iphone 13 Pro', 'Premium smartphone. Camera is perfect. 256 GB memory allows to store all your spectacular photos. NFC is blocked in Russia', 2, 2, ${now}, 1)

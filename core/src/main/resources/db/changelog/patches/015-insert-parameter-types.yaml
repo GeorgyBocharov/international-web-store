@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - property:
+      dbms: postgresql
+      name: now
+      value: now()
+  - property:
+      dbms: oracle
+      name: now
+      value: sysdate
+  - property:
+      dbms: postgresql
+      name: par_type_next_id
+      value: nextval('parameter_types_id_seq')
+  - property:
+      dbms: oracle
+      name: par_type_next_id
+      value: parameter_types_id_seq.nextval
+  - changeSet:
+      id: insert-parameter-types
+      author: BocharovGM
+      changes:
+        - sql:
+            dbms: 'postgresql, oracle'
+            sql: insert into parameter_types (id, name, creation_date,last_update_date, version) values (${par_type_next_id}, 'quality', ${now}, null, 1), (${par_type_next_id}, 'durability', ${now}, null, 1)

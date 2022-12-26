@@ -1,0 +1,56 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-infos-table
+      author: BocharovGM
+      changes:
+        - createTable:
+            tableName: infos
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                  name: id
+                  type: bigint
+              - column:
+                  constraints:
+                    nullable: false
+                  name: title
+                  type: varchar(50)
+              - column:
+                  name: description
+                  type: varchar(200)
+              - column:
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_infos_products
+                    references: products(id)
+                  name: product_id
+                  type: bigint
+              - column:
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_infos_languages
+                    references: languages(id)
+                  name: language_id
+                  type: bigint
+              - column:
+                  constraints:
+                    nullable: false
+                  name: creation_date
+                  type: timestamp
+              - column:
+                  name: last_update_date
+                  type: timestamp
+              - column:
+                  constraints:
+                    nullable: false
+                  name: version
+                  type: bigint
+  - changeSet:
+      id: create-infos-id-seq
+      author: BocharovGM
+      changes:
+        - createSequence:
+            sequenceName: infos_id_seq
+            startValue: 1
+            incrementBy: 1
