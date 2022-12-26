@@ -23,5 +23,4 @@ public class ProductController {
         return productWithCurrencyService.constructProductWithCurrencyMono(productId, languageId);
     }
 
-
 }

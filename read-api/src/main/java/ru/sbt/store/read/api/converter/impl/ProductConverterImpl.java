@@ -1,7 +1,6 @@
 package ru.sbt.store.read.api.converter.impl;
 
 import com.google.common.cache.LoadingCache;
-import common.entities.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ru.sbt.common.entities.*;
