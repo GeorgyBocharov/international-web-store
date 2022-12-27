@@ -3,6 +3,7 @@ package ru.sbt.store.core.services.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import ru.sbt.store.core.entities.*;
 import ru.sbt.store.core.entities.Currency;
 import ru.sbt.store.core.exceptions.EntityAlreadyExistsException;
@@ -44,11 +45,12 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.save(order);
     }
 
+    @Transactional
     @Override
     public Order createOrder(Order order) {
         Payment payment = order.getPayment();
-        Currency orderCurrency = currencyRepository.findById(order.getCurrencyId())
-                .orElseThrow(() -> new EntityNotExistsException(order.getCurrencyId(), Currency.class.getName()));
+        Shipment shipment = order.getShipment();
+        Currency orderCurrency = getOrderCurrency(order);
 
         Client orderClient = clientRepository.findById(order.getClientId())
                 .orElseThrow(() -> new EntityNotExistsException(order.getClientId(), Client.class.getName()));
@@ -57,17 +59,47 @@ public class OrderServiceImpl implements OrderService {
         order.setClient(orderClient);
         if (payment != null) {
             payment.setCurrency(currencyRepository.findById(payment.getCurrencyId()).orElse(null));
-            payment.setOrder(order);
         }
-        Set<OrderItem> items = order.getItems();
+        Set<OrderItem> items = new HashSet<>(order.getItems());
+
+        order.setPayment(null);
+        order.setShipment(null);
+        order.setItems(new HashSet<>());
+        Order savedOrder = orderRepository.save(order);
+
         List<Long> itemProductIds = items.stream().map(OrderItem::getProductId).collect(Collectors.toList());
         Map<Long, Product> productMap = new HashMap<>();
         productRepository.findAllById(itemProductIds).forEach(p -> productMap.put(p.getId(), p));
         items.forEach(item -> {
-            item.setProduct(productMap.get(item.getProductId()));
-            item.setOrder(order);
+            Product product = productMap.get(item.getProductId());
+            item.setProduct(product);
+            item.setOrder(savedOrder);
         });
-        return orderRepository.save(order);
+        List<OrderItem> orderItems = orderItemRepository.saveAll(items);
+        savedOrder.setItems(new HashSet<>(orderItems));
+
+        if(payment != null) {
+            payment.setOrder(savedOrder);
+            Payment savedPayment = paymentRepository.save(payment);
+            savedOrder.setPayment(savedPayment);
+        }
+        if (shipment != null) {
+            shipment.setOrder(savedOrder);
+            Shipment savedShipment = shipmentRepository.save(shipment);
+            savedOrder.setShipment(savedShipment);
+        }
+        return savedOrder;
+    }
+
+    private Currency getOrderCurrency(Order order) {
+        if (order.getCurrencyId() != null) {
+            return currencyRepository.findById(order.getCurrencyId())
+                    .orElseThrow(() -> new EntityNotExistsException(order.getCurrencyId(), Currency.class.getName()));
+        } else {
+            String name = order.getCurrency().getName();
+            return currencyRepository.findByName(name)
+                    .orElseThrow(() -> new EntityNotExistsException("Failed to find currency by name " + name));
+        }
     }
 
     @Override

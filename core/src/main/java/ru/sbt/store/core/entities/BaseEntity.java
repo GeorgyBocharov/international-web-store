@@ -17,7 +17,7 @@ import java.time.ZonedDateTime;
 public abstract class BaseEntity<T extends Serializable> {
 
     @CreationTimestamp
-    @Column(name = "creation_date", columnDefinition="TIMESTAMP")
+    @Column(name = "creation_date", columnDefinition="TIMESTAMP", updatable = false)
     private ZonedDateTime creationDate;
 
     @UpdateTimestamp

@@ -2,6 +2,7 @@ package ru.sbt.store.core.wrapping.services.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import ru.sbt.store.core.converters.*;
 import ru.sbt.store.core.dto.*;
 import ru.sbt.store.core.entities.*;
@@ -41,8 +42,8 @@ public class OrderDtoServiceImpl implements OrderDtoService {
     }
 
     @Override
-    public OrderDto createOrder(OrderDto orderDto) {
-        Order order = orderConversionService.convertFromDto(orderDto);
+    public OrderDto createOrder(CreateOrderDto orderDto) {
+        Order order = orderConversionService.convertFromCreateOrderDto(orderDto);
         Order savedOrder = orderService.createOrder(order);
         return convertOrderToDto(savedOrder);
     }
@@ -118,6 +119,7 @@ public class OrderDtoServiceImpl implements OrderDtoService {
         orderService.deleteOrderItem(id);
     }
 
+    @Transactional
     @Override
     public ShipmentDto addShipment(ShipmentDto shipmentDto) {
         Shipment shipment = shipmentConversionService.convertFromDto(shipmentDto);

@@ -5,11 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.sbt.store.core.converters.*;
 
+import ru.sbt.store.core.dto.CreateOrderDto;
+import ru.sbt.store.core.dto.CreateOrderItemDto;
 import ru.sbt.store.core.dto.OrderDto;
 import ru.sbt.store.core.dto.OrderItemDto;
-import ru.sbt.store.core.entities.Client;
-import ru.sbt.store.core.entities.Currency;
-import ru.sbt.store.core.entities.Order;
+import ru.sbt.store.core.entities.*;
 import ru.sbt.store.core.utils.OrderCostCalculationService;
 
 import java.util.Set;
@@ -78,5 +78,35 @@ public class OrderConversionServiceImpl implements OrderConversionService {
 
         order.setItems(dto.getOrderItemDtoSet().stream().map(orderItemConversionService::convertFromDto).collect(Collectors.toSet()));
         return order;
+    }
+
+    @Override
+    public Order convertFromCreateOrderDto(CreateOrderDto dto) {
+        if (dto == null) {
+            return null;
+        }
+        Order order = new Order();
+        Client client = new Client();
+        client.setId(dto.getClientId());
+        order.setClient(client);
+        Currency currency = new Currency();
+        currency.setName(dto.getCurrencyName());
+        order.setCurrency(currency);
+
+        order.setPayment(paymentConversionService.convertFromDto(dto.getPayment()));
+        order.setShipment(shipmentConversionService.convertFromDto(dto.getShipment()));
+
+        dto.getItems().forEach(itemDto -> addItemDto(itemDto, order));
+        return order;
+    }
+
+    private static void addItemDto(CreateOrderItemDto dto, Order order) {
+        OrderItem item = new OrderItem();
+        item.setOrder(order);
+        item.setQuantity(dto.getQuantity());
+        Product product = new Product();
+        product.setId(dto.getProductId());
+        item.setProduct(product);
+        order.addItem(item);
     }
 }

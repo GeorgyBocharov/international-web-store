@@ -11,6 +11,7 @@ import ru.sbt.store.core.entities.Currency;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @Slf4j
@@ -32,7 +33,7 @@ public class CurrencyServiceImpl implements CurrencyService {
     }
 
     @Override
-    public Currency findObjectByName(@NonNull String currencyName) {
+    public Optional<Currency> findObjectByName(@NonNull String currencyName) {
         return repository.findByName(currencyName);
     }
 

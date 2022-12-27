@@ -1,8 +1,11 @@
 package ru.sbt.store.core.exceptions;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 public class EntityNotExistsException extends OnlineStoreException {
 
-    private String message;
+    private final String message;
 
     public EntityNotExistsException(Long id, String className) {
         super();

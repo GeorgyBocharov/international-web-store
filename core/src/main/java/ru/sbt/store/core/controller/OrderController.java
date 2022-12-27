@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.sbt.store.core.dto.OrderDto;
-import ru.sbt.store.core.dto.OrderItemDto;
-import ru.sbt.store.core.dto.PaymentDto;
-import ru.sbt.store.core.dto.ShipmentDto;
+import ru.sbt.store.core.dto.*;
 import ru.sbt.store.core.wrapping.services.OrderDtoService;
 
 import javax.validation.Valid;
@@ -22,7 +19,7 @@ public class OrderController {
     private final OrderDtoService orderDtoService;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public OrderDto createOrder(@Valid @RequestBody OrderDto orderDto) {
+    public OrderDto createOrder(@Valid @RequestBody CreateOrderDto orderDto) {
         return orderDtoService.createOrder(orderDto);
     }
 

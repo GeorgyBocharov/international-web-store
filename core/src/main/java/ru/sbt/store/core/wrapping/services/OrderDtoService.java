@@ -9,7 +9,7 @@ import java.util.Set;
 
 @Service
 public interface OrderDtoService {
-    OrderDto createOrder(OrderDto orderDto);
+    OrderDto createOrder(CreateOrderDto orderDto);
     void deleteOrder(Long id);
     OrderDto findOrderById(Long id);
     List<OrderDto> getOrdersByClientId(Long clientId);

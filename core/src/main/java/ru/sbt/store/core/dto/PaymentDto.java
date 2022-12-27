@@ -24,5 +24,4 @@ public class PaymentDto {
 
     @Valid
     private CurrencyDto currencyDto;
-
 }

@@ -10,7 +10,7 @@ public class ShipmentDto {
 
     private Long id;
 
-    private Long orderId;
+    private long orderId;
 
     @Length(min = 3, max = 100)
     private String address;

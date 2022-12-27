@@ -9,13 +9,14 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.sbt.store.core.entities.Currency;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 @Repository
 public interface CurrencyRepository extends JpaRepository<Currency, Long> {
 
     @Transactional(readOnly = true)
     @Query("select c from Currency c where c.name = :name")
-    Currency findByName(@Param("name") String name);
+    Optional<Currency> findByName(@Param("name") String name);
 
     @Query("delete from Currency c where c.name = :name")
     @Transactional
