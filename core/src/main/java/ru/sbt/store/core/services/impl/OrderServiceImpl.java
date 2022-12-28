@@ -130,7 +130,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order findOrderById(Long id) {
-        return orderRepository.findOrderById(id).orElse(null);
+        return orderRepository.findOrderById(id)
+                .orElseThrow(() -> new EntityNotExistsException(id, Order.class.getName()));
     }
 
     @Override
