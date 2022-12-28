@@ -1,0 +1,41 @@
+version: '3.8'
+services:
+  db:
+    container_name: pg_container
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: gorgeous
+      POSTGRES_DB: online_store_db
+    ports:
+      - "5432:5432"
+    volumes:
+    - pg_data:/var/lib/postgresql/data
+  discovery-service:
+    container_name: discovery_service
+    image: georgeousdocker/online-store:discovery_service
+    restart: always
+    ports:
+      - "8761:8761"
+  core:
+    container_name: core
+    image: georgeousdocker/online-store:core
+    restart: always
+    ports:
+      - "8080:8080"
+  compositor-api:
+    container_name: compositor_api
+    image: georgeousdocker/online-store:compositor_api
+    restart: always
+    ports:
+      - "8082:8082"
+  read-api:
+    container_name: read_api
+    image: georgeousdocker/online-store:read_api
+    restart: always
+    ports:
+      - "8081:8081"
+
+volumes:
+  pg_data:
